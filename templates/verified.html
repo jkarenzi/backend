@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../static/verified.css">
+            <link
+                href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet"
+            >
+            <title>KnowledgeBridge</title>
+        </head>
+        <body>
+            <div class="message">
+                {{ msg }}
+                {% if code == 1 %}
+                    <img src="../static/checked.png" width="80px" height="80px">
+                {% else %}    
+                    <img src="../static/cancel.png" width="80px" height="80px">
+                {% endif %}    
+            </div>
+        </body>
+    </html>

@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-color: #2691d9;
+    font-family: 'Poppins', sans-serif;
+    font-size: xx-large;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 20rem;
+    padding-top: 5rem;
+}
+
+.message img {
+    margin-top: 3rem;
+}
+

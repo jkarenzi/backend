@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../static/reset.css">
+            <link
+                href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet"
+            >
+            <title>KnowledgeBridge</title>
+        </head>
+        <body>
+            <div class="container1">
+                <div class="container">
+                    {% if code == 1 %}
+                        <p class="p">KnowledgeBridge</p>
+                        <p class="p">Account: {{email}}</p>
+                        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                            {% if messages %}
+                                <p class="error_msg">{{messages[0]}}</p>
+                            {% endif %}
+                        {% endwith %}
+                        <form action="/password_reset" method="POST">
+                            <input type="hidden" name="token" value='{{token}}'>
+                            <div class="password">
+                                <label>New password</label>
+                                <input type="password" name="new_password" required>
+                            </div>
+                            <div class="password">
+                                <label>Confirm password</label>
+                                <input type="password" name="confirm_password" required>
+                            </div>
+                            <input type="submit" id="submit" value="Submit">
+                        </form>
+                    {% else %}    
+                        {{msg}}
+                    {% endif %}    
+                </div>
+            </div>
+        </body>
+    </html>
