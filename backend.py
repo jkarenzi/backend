@@ -33,7 +33,8 @@ url = f"mongodb+srv://{encoded_username}:{encoded_password}@knowledgebridge.q5ir
 def highlight_search_keyword(text, keyword):
     # Use a simple HTML <mark> tag for highlighting
     if keyword:
-        highlighted_text = text.replace(keyword, f'<mark>{keyword}</mark>')
+        regex_pattern = re.compile(keyword, re.IGNORECASE) 
+        highlighted_text = regex_pattern.sub(r'<mark>\g<0></mark>', text)
         print(highlighted_text)
         print(type(text))
         return highlighted_text
@@ -53,10 +54,15 @@ def upload_picture(pic, username, email):
     except Exception as e:
         print(e)
         return {'msg': 'unsuccessful'}
+        
 
-def generate_token(user_id):
+def generate_token(user_info):
     payload = {
-        'user_id': user_id,
+        'user_id': user_info['user_id'],
+        'username': user_info['username'],
+        'email': user_info['email'],
+        'admin': user_info['admin'],
+        'confirmed': user_info['confirmed'],
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     }
     
@@ -75,8 +81,12 @@ def decode_token(auth_token):
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             user_id = payload.get('user_id')
+            username = payload.get('username')
+            email = payload.get('email')
+            admin = payload.get('admin')
+            confirmed = payload.get('confirmed')
             print(user_id)
-            return {'user_id': user_id, 'code':1}
+            return {'user_id': user_id,'username':username,'email':email,'admin':admin,'confirmed':confirmed,'code':1}
         except jwt.ExpiredSignatureError:
             return {'message': 'Expired token', 'code':2}  # Token has expired
             
@@ -102,18 +112,20 @@ def get_login_data():
         if user_record:
             stored_password = user_record['password']
             if check_password_hash(stored_password, password):
-                user_id = str(user_record.get('_id'))
-                print(user_id)
-                token = generate_token(user_id)
-
+                
                 user_info = {
-                    'user_id': user_id,
+                    'user_id': str(user_record.get('_id')),
                     'username': user_record.get('username'),
                     'email': user_record.get('email'),
                     'confirmed': user_record.get('confirmed'),
                     'admin': user_record.get('admin'),
-                    'profile_url': user_record.get('profile_url')
+                    'profile_url': user_record.get('profile_url'),
+                    'google_auth': user_record.get('google_auth'),
+                    'view_book': user_record.get('view_book'),
+                    'download_book': user_record.get('download_book'),
+                    'subscribed': user_record.get('subscribed')
                 }
+                token = generate_token(user_info)
 
                 response = {'message':"Login successful", 'status':'ok', 'token': token, 'user_info': user_info}
                 client.close()
@@ -139,8 +151,14 @@ def signup():
             form_data = request.get_json()
             username = form_data.get('username')
             password = form_data.get('password')
+            confirm_password = form_data.get('confirmPassword')
             email = form_data.get('email')
             role = form_data.get('role')
+
+            if password != confirm_password:
+                response = {'message':"Passwords do not match!", 'status':'Not ok'}
+                return jsonify(response)
+
 
             client = pymongo.MongoClient(url)
             db = client["xtracker"]
@@ -156,17 +174,17 @@ def signup():
             if not user_record:
                 hashed_password = generate_password_hash(password)
                 if role == 'admin':
-                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True,'profile_url':'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8'}
+                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True,'profile_url':'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8'}
                     xtracker_users.insert_one(data)
                     
                 else:
-                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False,'profile_url':'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8'}
+                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False,'profile_url':'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8'}
                     xtracker_users.insert_one(data)
                     
 
                 token = s.dumps(email)
                 msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[email])
-                link = url_for('confirm_token', token=token, _external=True)
+                link = f'https://kbbackend.onrender.com/confirm_token/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
             
@@ -183,10 +201,16 @@ def signup():
             response = {'message':"Unsuccessful", 'status':'Not ok'}
             return jsonify(response)
         
-    
+
 @app.route('/add_user', methods=['POST'])   
 def add_user():
     try:
+        auth_token = request.headers.get('Authorization')
+        auth_res = decode_token(auth_token)
+
+        if auth_res['code'] != 1:
+            return jsonify(auth_res)
+        
         username = request.form.get('username')
         password = request.form.get('password')
         email = request.form.get('email')
@@ -202,7 +226,7 @@ def add_user():
         
         if user_email:
             client.close()
-            response = {'message':"Email already in use", 'status':'not ok'}
+            response = {'message':"Email already in use", 'status':'not ok','code':0}
             return jsonify(response)
         
         if not user_record:
@@ -219,11 +243,11 @@ def add_user():
 
                 token = s.dumps(email)
                 msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[email])
-                link = url_for('confirm_token', token=token, _external=True)
+                link = f'https://kbbackend.onrender.com/confirm_token/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
             
-                response = {'message':"Signup successful", 'status':'ok'}
+                response = {'message':"Signup successful", 'status':'ok','code':0}
                 return jsonify(response)
             else:
                 user_res = upload_picture(profile_picture, username, email)
@@ -231,32 +255,32 @@ def add_user():
                 file_id = user_res.get('file_id', None)
                 print(file_id)
                 if not file_id:
-                    return jsonify({'message':"Unsuccessful", 'status':'Not ok'})
+                    return jsonify({'message':"Unsuccessful", 'status':'Not ok','code':0})
                 else:
                     hashed_password = generate_password_hash(password)
                     if role == 'admin':
-                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True, 'profile_url': f'http://localhost:5000/user_profile/{file_id}'}
+                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True, 'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}'}
                         xtracker_users.insert_one(data)
                         client.close()
                     else:
-                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False, 'profile_url': f'http://localhost:5000/user_profile/{file_id}'}
+                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False, 'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}'}
                         xtracker_users.insert_one(data)
                         client.close()
 
                     token = s.dumps(email)
                     msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[email])
-                    link = url_for('confirm_token', token=token, _external=True)
+                    link = f'https://kbbackend.onrender.com/confirm_token/{token}'
                     msg.body = 'Your link is {}'.format(link)
                     mail.send(msg)
 
-                    response = {'message':"Signup successful", 'status':'ok'}
+                    response = {'message':"Signup successful", 'status':'ok','code':0}
                     return jsonify(response)
         else:
-            response = {'message':"Username already exists. Please choose a different one", 'status':'Not ok'}
+            response = {'message':"Username already exists. Please choose a different one", 'status':'Not ok','code':0}
             return jsonify(response)            
     except Exception as e:
         print(e)
-        response = {'message':"Unsuccessful", 'status':'Not ok'}
+        response = {'message':"Unsuccessful", 'status':'Not ok','code':0}
         return jsonify(response)
 
 
@@ -298,7 +322,7 @@ def confirm_token(token):
             xtracker_users.update_one(query, update)
             the_msg = 'Email successfully verified'
             return render_template('verified.html', msg=the_msg, code=1)
-
+      
     except SignatureExpired:
         the_msg = 'Link is expired'
         return render_template('verified.html', msg=the_msg, code=0)
@@ -335,7 +359,7 @@ def forgot_password():
         token = s.dumps(email)
         try:
             msg = Message('Reset Password', sender='karenzijoslyn@gmail.com', recipients=[email])
-            link = f'http://localhost:5000/reset_password/{token}'
+            link = f'https://kbbackend.onrender.com/reset_password/{token}'
             msg.body = 'Your link to reset password is {}'.format(link)
             mail.send(msg)
             return jsonify({'message':'Password reset link sent successfully','status': 'ok'})
@@ -485,7 +509,11 @@ def get_users():
         'email': user.get('email'),
         'confirmed': user.get('confirmed'),
         'admin': user.get('admin'),
-        'profile_url': user.get('profile_url')
+        'profile_url': user.get('profile_url'),
+        'google_auth': user.get('google_auth'),
+        'view_book': user.get('view_book'),
+        'download_book': user.get('download_book'),
+        'subscribed': user.get('subscribed')
         } for user in users
     ]
 
@@ -495,6 +523,12 @@ def get_users():
 
 @app.route('/add_books', methods=['POST'])
 def add_books():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     category = request.form.get('category')
     level = request.form.get('level')
     pdf_files = request.files.getlist('files')
@@ -514,13 +548,15 @@ def add_books():
         # Return a JSON response
         return jsonify({
             'status': 'success',
-            'message': 'The PDF files have been uploaded successfully.'
+            'message': 'The PDF files have been uploaded successfully.',
+            'code':0
         })
     except:
         client.close()
         return jsonify({
             'status': 'fail',
-            'message': 'Could not upload pdf file!. Try again later'
+            'message': 'Could not upload pdf file!. Try again later',
+            'code':0
         })
     
 
@@ -591,8 +627,19 @@ def get_books():
 
 @app.route('/download/<string:file_id>')
 def download_file(file_id):
-    # Connect to MongoDB
+    user_id = request.args.get('id')
+
     client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    user_record = xtracker_users.find_one({'_id':ObjectId(user_id)})
+    print(user_record)
+    if user_record.get('download_book') == False:
+        client.close()
+        return jsonify({'status':'not ok'}),404
+
+    # Connect to MongoDB
     db = client["knowledgebridge"]
     fs = GridFS(db)
 
@@ -690,6 +737,12 @@ def delete_book(id):
 
 @app.route('/add_question', methods=['POST'])
 def add_question():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     id = request.form.get('id')
     question = request.form.get('question')
     timestamp = datetime.datetime.fromisoformat(request.form.get('timestamp'))
@@ -703,14 +756,20 @@ def add_question():
     try:
         questions.insert_one(data)
         client.close()
-        return jsonify({'message':'Successful', 'status': 'ok'})
+        return jsonify({'message':'Successful', 'status': 'ok','code':0})
     except Exception as e:
         client.close()
-        return jsonify({'message':'Unsuccessful', 'status': 'not ok'})
+        return jsonify({'message':'Unsuccessful', 'status': 'not ok','code':0})
 
 
 @app.route('/get_questions')
 def get_questions():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge_community_questions"]
     questions = db['questions']
@@ -745,11 +804,17 @@ def get_questions():
         list_results.append(object)
 
     client.close()
-    return jsonify({'questions': list_results, 'status':'ok'})
+    return jsonify({'questions': list_results, 'status':'ok','code':0})
 
 
 @app.route('/add_post', methods=['POST'])
 def add_post():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     id = request.form.get('id')
     user_post = request.form.get('user_post')
     timestamp = datetime.datetime.fromisoformat(request.form.get('timestamp'))
@@ -773,14 +838,20 @@ def add_post():
     try:
         posts.insert_one(data)
         client.close()
-        return jsonify({'message':'Successful', 'status': 'ok'})
+        return jsonify({'message':'Successful', 'status': 'ok','code':0})
     except Exception as e:
         client.close()
-        return jsonify({'message':'Unsuccessful', 'status': 'not ok'})
+        return jsonify({'message':'Unsuccessful', 'status': 'not ok','code':0})
 
 
 @app.route('/get_posts')
 def get_posts():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge_community_questions"]
     posts = db['posts']
@@ -817,11 +888,17 @@ def get_posts():
         list_results.append(object)
 
     client.close()
-    return jsonify({'posts': list_results, 'status':'ok'})
+    return jsonify({'posts': list_results, 'status':'ok','code':0})
     
 
 @app.route('/remove_picture/<string:id>', methods=['DELETE'])    
 def remove_picture(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["xtracker"]
     xtracker_users = db['xtracker_users']
@@ -830,7 +907,7 @@ def remove_picture(id):
 
     if user_record:
         query = {'_id':ObjectId(id)}
-        update = {'$set': {'profile_url': 'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8'}}  
+        update = {'$set': {'profile_url': 'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8'}}  
         xtracker_users.update_one(query, update)
 
         db = client["knowledgebridge_profile_pictures"]
@@ -851,23 +928,33 @@ def remove_picture(id):
                     'email': userInfo.get('email'),
                     'confirmed': userInfo.get('confirmed'),
                     'admin': userInfo.get('admin'),
-                    'profile_url': userInfo.get('profile_url')
+                    'profile_url': userInfo.get('profile_url'),
+                    'google_auth': userInfo.get('google_auth'),
+                    'view_book': userInfo.get('view_book'),
+                    'download_book': userInfo.get('download_book'),
+                    'subscribed': userInfo.get('subscribed')
                 }
                 client.close()
-                return jsonify({'message':'Profile picture successfully removed from database', 'status':'ok','user_info':user_info})
+                return jsonify({'message':'Profile picture successfully removed from database', 'status':'ok','user_info':user_info,'code':0})
             except: 
                 client.close()
-                return jsonify({'message':'Unsuccessful', 'status': 'not ok'})
+                return jsonify({'message':'Unsuccessful', 'status': 'not ok','code':0})
         else:
             client.close()
-            return jsonify({'message':'No match found', 'status': 'not ok'})
+            return jsonify({'message':'No match found', 'status': 'not ok','code':0})
     else:
         client.close()
-        return jsonify({'message':'No match found', 'status': 'not ok'})
+        return jsonify({'message':'No match found', 'status': 'not ok','code':0})
     
 
 @app.route('/change_profile', methods=['POST'])
 def change_profile():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     username= request.form.get('user') 
     profile_picture = request.files.get('profile_picture')
     email = request.form.get('email')
@@ -888,7 +975,7 @@ def change_profile():
         except Exception as e:
             print(e)
             client.close()
-            return jsonify({'message':"Unsuccessful", 'status':'Not ok'})
+            return jsonify({'message':"Unsuccessful", 'status':'Not ok','code':0})
    
     try:
         user_res = upload_picture(profile_picture, username, email)
@@ -903,7 +990,7 @@ def change_profile():
             xtracker_users = db['xtracker_users']
 
             query = {'username':username}
-            update = {'$set': {'profile_url': f'http://localhost:5000/user_profile/{file_id}'}}  
+            update = {'$set': {'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}'}}  
             xtracker_users.update_one(query, update)
             userInfo = xtracker_users.find_one({'username':username})
 
@@ -913,20 +1000,95 @@ def change_profile():
                 'email': userInfo.get('email'),
                 'confirmed': userInfo.get('confirmed'),
                 'admin': userInfo.get('admin'),
-                'profile_url': userInfo.get('profile_url')
+                'profile_url': userInfo.get('profile_url'),
+                'google_auth': userInfo.get('google_auth'),
+                'view_book': userInfo.get('view_book'),
+                'download_book': userInfo.get('download_book'),
+                'subscribed': userInfo.get('subscribed')
             }
             print(user_info)
 
             client.close()
-            return jsonify({'message':'Profile picture successfully changed!', 'status': 'ok', 'user_info':user_info})
+            return jsonify({'message':'Profile picture successfully changed!', 'status': 'ok', 'user_info':user_info,'code':0})
     except Exception as e:
         print(e)
         client.close()
-        return jsonify({'message':'Unable to change profile picture', 'status': 'not ok'})    
+        return jsonify({'message':'Unable to change profile picture', 'status': 'not ok','code':0})    
           
+
+@app.route('/change_email', methods=['POST'])
+def change_email():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
+    new_email = request.form.get('email')
+    password = request.form.get('password')
+    username = request.form.get('username')
+
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    user_record = xtracker_users.find_one({'username': username})
+    if user_record:
+        stored_password = user_record['password']
+        if check_password_hash(stored_password, password):
+            try:         
+                user_check = xtracker_users.find_one({'email': new_email})
+                if user_check:
+                    client.close()
+                    return jsonify({'message': 'Email already in use!', 'status':'not ok','code':0})
+
+
+                query = {'username': username}
+                update = {'$set': {'email': new_email, 'confirmed':False}}  
+                xtracker_users.update_one(query, update)
+
+                token = s.dumps(new_email)
+                msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[new_email])
+                link = f'https://kbbackend.onrender.com/confirm_token/{token}'
+                msg.body = 'Your link is {}'.format(link)
+                mail.send(msg)
+
+                new_user = xtracker_users.find_one({'username': username})
+                user_info = {
+                    'user_id': str(new_user.get('_id')),
+                    'username': new_user.get('username'),
+                    'email': new_user.get('email'),
+                    'confirmed': new_user.get('confirmed'),
+                    'admin': new_user.get('admin'),
+                    'profile_url': new_user.get('profile_url'),
+                    'google_auth': new_user.get('google_auth'),
+                    'view_book': new_user.get('view_book'),
+                    'download_book': new_user.get('download_book'),
+                    'subscribed': new_user.get('subscribed')
+                }
+
+                client.close()
+                return jsonify({'message': 'Email succesfully changed!. A confirmation link has been sent to your new email', 'status':'ok','user_info':user_info,'code':0})
+            except Exception as e:
+                print(e)
+                client.close()
+                return jsonify({'message':'Could not change email. Try again later', 'status':'not ok','code':0})  
+        else:
+            client.close()
+            return jsonify({'message':'Incorrect password. Try again', 'status':'not ok','code':0})
+    else:
+        client.close()
+        return jsonify({'message':"Account with this username doesn't exist", 'status':'not ok','code':0})
+
 
 @app.route('/change_username', methods=['POST'])
 def change_username():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     password = request.form.get('password')   
     old_username = request.form.get('old_username') 
     new_username = request.form.get('new_username')  
@@ -940,6 +1102,11 @@ def change_username():
         stored_password = user_record['password']
         if check_password_hash(stored_password, password):
             try:
+                user_check = xtracker_users.find_one({'username':new_username})
+                if user_check:
+                    client.close()
+                    return jsonify({'message': 'Username already exists!', 'status':'not ok','code':0})
+                
                 query = {'username': old_username}
                 update = {'$set': {'username': new_username}}  
                 xtracker_users.update_one(query, update)
@@ -950,25 +1117,35 @@ def change_username():
                     'email': new_user.get('email'),
                     'confirmed': new_user.get('confirmed'),
                     'admin': new_user.get('admin'),
-                    'profile_url': new_user.get('profile_url')
+                    'profile_url': new_user.get('profile_url'),
+                    'google_auth': new_user.get('google_auth'),
+                    'view_book': new_user.get('view_book'),
+                    'download_book': new_user.get('download_book'),
+                    'subscribed': new_user.get('subscribed')
                 }
 
                 client.close()
-                return jsonify({'message': 'Username succesfully updated!', 'status':'ok','user_info':user_info})
+                return jsonify({'message': 'Username succesfully updated!', 'status':'ok','user_info':user_info,'code':0})
             except Exception as e:
                 print(e)
                 client.close()
-                return jsonify({'message':'Could not update username. Try again later', 'status':'not ok'})
+                return jsonify({'message':'Could not update username. Try again later', 'status':'not ok','code':0})
         else:
             client.close()
-            return jsonify({'message':'Incorrect password. Try again', 'status':'not ok'})
+            return jsonify({'message':'Incorrect password. Try again', 'status':'not ok','code':0})
     else:
         client.close()
-        return jsonify({'message':"Account with this username doesn't exist", 'status':'not ok'})
+        return jsonify({'message':"Account with this username doesn't exist", 'status':'not ok','code':0})
     
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     old_password = request.form.get('old_password')    
     new_password = request.form.get('new_password')
     confirm_password = request.form.get('confirm_password')
@@ -989,24 +1166,30 @@ def change_password():
                     update = {'$set': {'password': hashed_password}}  
                     xtracker_users.update_one(query, update)
                     client.close()
-                    return jsonify({'message':'Password successfully changed!','status':'ok'})
+                    return jsonify({'message':'Password successfully changed!','status':'ok','code':0})
                 except Exception as e:
                     print(e)
                     client.close()
-                    return jsonify({'message':'Could not change password. Try again later!', 'status': 'not ok'})
+                    return jsonify({'message':'Could not change password. Try again later!', 'status': 'not ok','code':0})
             else:
                 client.close()
-                return jsonify({'message':'Passwords do not match!', 'status': 'not ok'})    
+                return jsonify({'message':'Passwords do not match!', 'status': 'not ok','code':0})    
         else:
             client.close()
-            return jsonify({'message':'Incorrect password. Try again!', 'status': 'not ok'})
+            return jsonify({'message':'Incorrect password. Try again!', 'status': 'not ok','code':0})
     else:
         client.close()
-        return jsonify({'message':'Could not find any account with this username', 'status': 'not ok'})    
+        return jsonify({'message':'Could not find any account with this username', 'status': 'not ok','code':0})    
 
 
 @app.route('/get_info_books')
 def get_info_books():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge"]
     fs = GridFS(db)
@@ -1023,11 +1206,17 @@ def get_info_books():
         category_list.append(object)
 
     client.close()
-    return jsonify({'category_count': category_list})
+    return jsonify({'category_count': category_list,'code':0})
 
 
 @app.route('/send_mail', methods=['POST'])
 def send_mail():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     email = request.form.get('email')
     subject = request.form.get('subject')
     email_body = request.form.get('body')
@@ -1036,10 +1225,10 @@ def send_mail():
     msg.body = email_body
     try:
         mail.send(msg)
-        return jsonify({'message':'Email sent successfully', 'status':'ok'})
+        return jsonify({'message':'Email sent successfully', 'status':'ok','code':0})
     except Exception as e:
         print(e)
-        return jsonify({'message':'Could not send Email. Check your internet connection!', 'status':'not ok'})
+        return jsonify({'message':'Could not send Email. Check your internet connection!', 'status':'not ok','code':0})
 
 
 @app.route('/like',methods=['POST'])
@@ -1110,6 +1299,12 @@ def dislike():
 @app.route('/add_answer', methods=['POST'])
 def add_answer():
     try:
+        auth_token = request.headers.get('Authorization')
+        auth_res = decode_token(auth_token)
+
+        if auth_res['code'] != 1:
+            return jsonify(auth_res)
+    
         user_id = request.form.get('user_id')
         question_id = request.form.get('question_id')
         answer = request.form.get('answer')
@@ -1124,16 +1319,22 @@ def add_answer():
         answers.insert_one(data)
 
         client.close()
-        return jsonify({'message':'Successful','status':'ok'})
+        return jsonify({'message':'Successful','status':'ok','code':0})
     except Exception as e:
         print(e)
         client.close()
-        return jsonify({'message':'Unsuccessful','status':'not ok'})
+        return jsonify({'message':'Unsuccessful','status':'not ok','code':0})
 
 
 @app.route('/get_answers/<string:id>')
 def get_answers(id):
     try:
+        auth_token = request.headers.get('Authorization')
+        auth_res = decode_token(auth_token)
+
+        if auth_res['code'] != 1:
+            return jsonify(auth_res)
+        
         client = pymongo.MongoClient(url)
         db = client["knowledgebridge_community_questions"]
         questions = db["questions"]
@@ -1170,16 +1371,22 @@ def get_answers(id):
             }
             list_results.append(object)
         client.close()
-        return jsonify({'answers':list_results,'question':question,'status':'ok'})  
+        return jsonify({'answers':list_results,'question':question,'status':'ok','code':0})  
     except Exception as e:
         print(e)
         client.close()
-        return jsonify({'message':'error','status':'not ok'})  
+        return jsonify({'message':'error','status':'not ok','code':0})  
 
 
 @app.route("/add_comment", methods=['POST'])
 def add_comment():
     try:
+        auth_token = request.headers.get('Authorization')
+        auth_res = decode_token(auth_token)
+
+        if auth_res['code'] != 1:
+            return jsonify(auth_res)
+        
         user_id = request.form.get('user_id')
         post_id = request.form.get('post_id')
         comment = request.form.get('comment')
@@ -1200,21 +1407,29 @@ def add_comment():
         posts.update_one({'_id':ObjectId(post_id)}, update)
 
         client.close()
-        return jsonify({'message':'Successful', 'comments': sum, 'status':'ok'})
+        return jsonify({'message':'Successful', 'comments': sum, 'status':'ok','code':0})
     except Exception as e:
         print(e)
         client.close()
-        return jsonify({'message':'Unsuccessful','status':'not ok'})
+        return jsonify({'message':'Unsuccessful','status':'not ok','code':0})
 
     
 @app.route('/get_comments/<string:id>')
 def get_comments(id):
     try:
+        auth_token = request.headers.get('Authorization')
+        auth_res = decode_token(auth_token)
+
+        if auth_res['code'] != 1:
+            return jsonify(auth_res)
+    
+        number_comments = int(request.args.get('comments'))
+
         client = pymongo.MongoClient(url)
         db = client["knowledgebridge_community_questions"]
         comments = db['comments']
 
-        results = comments.find({'post_id':id}).sort("created_at", -1)
+        results = comments.find({'post_id':id}).skip(number_comments).limit(3).sort("created_at", -1)
 
         db = client["xtracker"]
         xtracker_users = db['xtracker_users']
@@ -1236,15 +1451,21 @@ def get_comments(id):
             }
             list_results.append(object)
         client.close()
-        return jsonify({'comments':list_results,'status':'ok'})  
+        return jsonify({'comments':list_results,'status':'ok','code':0})  
     except Exception as e:
         print(e)
         client.close()
-        return jsonify({'message':'error','status':'not ok'})  
+        return jsonify({'message':'error','status':'not ok','code':0})  
 
 
 @app.route('/delete_post/<string:id>', methods=['DELETE'])
 def delete_post(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge_community_questions"]
     posts = db['posts']
@@ -1267,14 +1488,20 @@ def delete_post(id):
         post_dislikes.delete_many({'post_id':id})
 
         client.close()
-        return jsonify({'message':'Post deleted successfully!','status': 'ok'})
+        return jsonify({'message':'Post deleted successfully!','status': 'ok','code':0})
     else:
         client.close()
-        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok'})
+        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok','code':0})
     
 
 @app.route('/delete_comment/<string:id>', methods=['DELETE'])
 def delete_comment(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge_community_questions"]
     comments = db['comments']
@@ -1291,14 +1518,20 @@ def delete_comment(id):
         update = {'$set': {'comments':sum }}
         posts.update_one({'_id':ObjectId(result.get('post_id'))}, update)
         client.close()
-        return jsonify({'message':'Comment deleted successfully!','comments': sum,'status': 'ok'})
+        return jsonify({'message':'Comment deleted successfully!','comments': sum,'status': 'ok','code':0})
     else:
         client.close()
-        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok'})    
+        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok','code':0})    
         
 
 @app.route('/delete_question/<string:id>', methods=['DELETE'])
 def delete_question(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge_community_questions"]
     questions = db['questions']
@@ -1311,14 +1544,20 @@ def delete_question(id):
         answers.delete_many({'question_id':id})
 
         client.close()
-        return jsonify({'message':'Question deleted successfully!','status': 'ok'})
+        return jsonify({'message':'Question deleted successfully!','status': 'ok','code':0})
     else:
         client.close()
-        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok'})
+        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok','code':0})
     
 
 @app.route('/delete_answer/<string:id>', methods=['DELETE'])
 def delete_answer(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     client = pymongo.MongoClient(url)
     db = client["knowledgebridge_community_questions"]
     answers = db['answers']
@@ -1326,14 +1565,20 @@ def delete_answer(id):
     res = answers.delete_one({'_id':ObjectId(id)})
     if res.deleted_count == 1:
         client.close()
-        return jsonify({'message':'Answer deleted successfully!','status': 'ok'})
+        return jsonify({'message':'Answer deleted successfully!','status': 'ok','code':0})
     else:
         client.close()
-        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok'})    
+        return jsonify({'message':'Something went wrong. Try again later!','status': 'not ok','code':0})    
     
 
 @app.route('/elevate_privileges', methods=['POST'])
 def elevate_privileges():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
     id = request.form.get('id')
 
     client = pymongo.MongoClient(url)
@@ -1346,16 +1591,209 @@ def elevate_privileges():
     result = xtracker_users.find_one(query)
     if result.get('admin'):
         client.close()
-        return jsonify({'message':'Already an admin!','status': 'not ok'})
+        return jsonify({'message':'Already an admin!','status': 'not ok','code':0})
 
     try:
         xtracker_users.update_one(query, update)
         client.close()
-        return jsonify({'message':'Privilege elevation successful!','status': 'ok'})
+        return jsonify({'message':'Privilege elevation successful!','status': 'ok','code':0})
     except Exception as e:
         print(e)
         client.close()
-        return jsonify({'message':'Privilege elevation unsuccessful. Try again later!','status': 'not ok'})
+        return jsonify({'message':'Privilege elevation unsuccessful. Try again later!','status': 'not ok','code':0})
+
+
+@app.route('/diminish_privileges', methods=['POST'])
+def diminish_privileges():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
+    id = request.form.get('id')
+
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    query = {'_id':ObjectId(id)}
+    update = {'$set':{'admin':False}}
+
+    result = xtracker_users.find_one(query)
+    if not result.get('admin'):
+        client.close()
+        return jsonify({'message':'Already a user!','status': 'not ok','code':0})
+
+    try:
+        xtracker_users.update_one(query, update)
+        client.close()
+        return jsonify({'message':'Privilege diminishing successful!','status': 'ok','code':0})
+    except Exception as e:
+        print(e)
+        client.close()
+        return jsonify({'message':'Privilege diminishing unsuccessful. Try again later!','status': 'not ok','code':0})
+    
+
+@app.route('/google_login', methods=['POST'])
+def google_login():
+    username = request.form.get('username')
+    email = request.form.get('email')
+    profile_url = request.form.get('profile_url')
+
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    result = xtracker_users.find_one({'email':email,'google_auth':True})
+    if not result:
+        data = {'username':username, 'email':email, 'admin':False, 'confirmed':True, 'profile_url':profile_url, 'google_auth':True}
+        xtracker_users.insert_one(data)
+
+    user_record = xtracker_users.find_one({'email':email,'google_auth':True})
+    user_info = {
+        'user_id': str(user_record.get('_id')),
+        'username': user_record.get('username'),
+        'email': user_record.get('email'),
+        'confirmed': user_record.get('confirmed'),
+        'admin': user_record.get('admin'),
+        'profile_url': user_record.get('profile_url'),
+        'google_auth': user_record.get('google_auth'),
+        'view_book': user_record.get('view_book'),
+        'download_book': user_record.get('download_book'),
+        'subscribed': user_record.get('subscribed')
+    }
+    token = generate_token(user_info)
+    client.close()
+    response = {'message':"Login successful", 'status':'ok', 'token': token, 'user_info': user_info}
+    return jsonify(response)
+    
+
+@app.route('/remove_view/<string:id>')
+def remove_view(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    query = {'_id':ObjectId(id)}
+    update = {'$set':{'view_book':False}}
+
+    try:
+        xtracker_users.update_one(query, update)
+        client.close()
+        return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
+    except Exception as e:
+        print(e)
+        client.close()
+        return jsonify({'message':'Unsuccessful. Try again later!','status': 'not ok','code':0})
+    
+
+@app.route('/remove_download/<string:id>')
+def remove_download(id):
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    query = {'_id':ObjectId(id)}
+    update = {'$set':{'download_book':False}}
+
+    try:
+        xtracker_users.update_one(query, update)
+        client.close()
+        return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
+    except Exception as e:
+        print(e)
+        client.close()
+        return jsonify({'message':'Unsuccessful. Try again later!','status': 'not ok','code':0})
+    
+    
+@app.route('/grant_privilege', methods=['POST'])
+def grant_privilege():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    privilege = request.form.get('privilege')
+    id = request.form.get('id')
+    query = {'_id':ObjectId(id)}
+    
+
+    if privilege == 'View':
+        update = {'$set':{'view_book':True}}
+        try:
+            xtracker_users.update_one(query, update)
+            client.close()
+            return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
+        except Exception as e:
+            print(e)
+            client.close()
+            return jsonify({'message':'Unsuccessful. Try again later!','status': 'not ok','code':0})
+
+
+    elif privilege == 'Download':
+        update = {'$set':{'download_book':True}}
+
+        try:
+            xtracker_users.update_one(query, update)
+            client.close()
+            return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
+        except Exception as e:
+            print(e)
+            client.close()
+            return jsonify({'message':'Unsuccessful. Try again later!','status': 'not ok','code':0})
+    else:
+        client.close()
+        return jsonify({'message':'Unsuccessful. Try again later!','status': 'not ok','code':0})
+
+
+@app.route('/get_permissions', methods=['POST'])
+def get_permissions():
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
+    
+    id = request.form.get('id')
+
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    user_record = xtracker_users.find_one({'_id':ObjectId(id)})
+    
+    if user_record:
+        user_info = {
+            'user_id': str(user_record.get('_id')),
+            'confirmed': user_record.get('confirmed'),
+            'view_book': user_record.get('view_book'),
+            'download_book': user_record.get('download_book'),
+            'subscribed': user_record.get('subscribed')
+        }
+
+        client.close()
+        return jsonify({'permissions':user_info,'status': 'ok','code':0})
+    else:
+        client.close()
+        return jsonify({'status': 'not ok','code':0})
 
 
 if __name__ == '__main__':
