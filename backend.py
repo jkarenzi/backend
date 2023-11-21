@@ -12,7 +12,7 @@ import datetime
 from urllib.parse import quote_plus
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
 app.config['SECRET_KEY'] = 'KMJ123456789'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
