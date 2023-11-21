@@ -184,7 +184,7 @@ def signup():
 
                 token = s.dumps(email)
                 msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[email])
-                link = f'https://kbbackend.onrender.com/confirm_token/{token}'
+                link = f'https://kbbackend.onrender.com/confirm_email/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
             
@@ -243,7 +243,7 @@ def add_user():
 
                 token = s.dumps(email)
                 msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[email])
-                link = f'https://kbbackend.onrender.com/confirm_token/{token}'
+                link = f'https://kbbackend.onrender.com/confirm_email/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
             
@@ -1049,7 +1049,7 @@ def change_email():
 
                 token = s.dumps(new_email)
                 msg = Message('Confirm Email', sender='karenzijoslyn@gmail.com', recipients=[new_email])
-                link = f'https://kbbackend.onrender.com/confirm_token/{token}'
+                link = f'https://kbbackend.onrender.com/confirm_email/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
 
