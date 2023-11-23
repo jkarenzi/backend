@@ -22,7 +22,7 @@ app.config['MAIL_USE_TLS'] = True  # Use TLS encryption
 app.config['MAIL_USERNAME'] = 'karenzijoslyn@gmail.com'
 app.config['MAIL_PASSWORD'] = 'coup yusl ijqn bden'
 
-logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 mail = Mail(app)
 SECRET_KEY = 'kmj12345'
@@ -1859,7 +1859,9 @@ def get_profile(id):
                     log_list.append(line)
 
         log_list.reverse()
-        return jsonify({'log_list':log_list,'user_info':user_info,'status': 'ok','code':0})
+
+      
+        return jsonify({'log_list':log_list[:10],'user_info':user_info,'status': 'ok','code':0})
     else:
         client.close()
         return jsonify({'status': 'not ok','message':'Unsuccessful','code':0})
