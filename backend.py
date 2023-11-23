@@ -10,6 +10,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import jwt
 import datetime
 from urllib.parse import quote_plus
+import logging
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
@@ -20,6 +21,8 @@ app.config['MAIL_PORT'] = 587  # Gmail's SMTP port for TLS
 app.config['MAIL_USE_TLS'] = True  # Use TLS encryption
 app.config['MAIL_USERNAME'] = 'karenzijoslyn@gmail.com'
 app.config['MAIL_PASSWORD'] = 'coup yusl ijqn bden'
+
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 mail = Mail(app)
 SECRET_KEY = 'kmj12345'
@@ -127,11 +130,13 @@ def get_login_data():
                 }
                 token = generate_token(user_info)
 
+                logging.info(f"User {user_info.get('username')} logged in")
                 response = {'message':"Login successful", 'status':'ok', 'token': token, 'user_info': user_info}
                 client.close()
                 return jsonify(response)
             else:
                 client.close()
+                logging.info(f"User {user_info.get('username')} -failed login attempt")
                 response = {'message':"Invalid password", 'status':'Not ok'}
                 return jsonify(response)
         else:
@@ -187,7 +192,8 @@ def signup():
                 link = f'https://kbbackend.onrender.com/confirm_email/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
-            
+
+                logging.info(f"User {username} signed up successfully")
                 response = {'message':"Signup successful", 'status':'ok'}
                 client.close()
                 return jsonify(response)
@@ -246,7 +252,8 @@ def add_user():
                 link = f'https://kbbackend.onrender.com/confirm_email/{token}'
                 msg.body = 'Your link is {}'.format(link)
                 mail.send(msg)
-            
+
+                logging.info(f"Admin {auth_res.get('username')} successfully created user with{username}")
                 response = {'message':"Signup successful", 'status':'ok','code':0}
                 return jsonify(response)
             else:
@@ -273,6 +280,7 @@ def add_user():
                     msg.body = 'Your link is {}'.format(link)
                     mail.send(msg)
 
+                    logging.info(f"Admin {auth_res.get('username')} successfully created user {username}")
                     response = {'message':"Signup successful", 'status':'ok','code':0}
                     return jsonify(response)
         else:
@@ -393,6 +401,7 @@ def password_reset():
             xtracker_users.update_one(query, update)
             the_msg = 'Password has been successfully changed'
             client.close()
+            logging.info(f"User {user_record['username']} successsfully reset password")
             return render_template('verified.html', msg=the_msg, code=1)
         
     except SignatureExpired:
@@ -543,6 +552,7 @@ def add_books():
         # Save the PDF files to GridFS
         for pdf_file in pdf_files:
             file_id = fs.put(pdf_file, filename=pdf_file.filename, category=category, level=level)
+            logging.info(f"Admin {auth_res.get('username')} successfully added book -{pdf_file.filename}")
 
         client.close()
         # Return a JSON response
@@ -658,6 +668,7 @@ def download_file(file_id):
         mimetype='application/pdf'
     )
     client.close()
+    logging.info(f"User {user_record.get('username')} successfully downloaded book -{file.filename}")
     return response
 
 
@@ -701,6 +712,7 @@ def delete_user(id):
     client.close()
 
     if result.deleted_count == 1:
+       logging.info(f"Admin {auth_res.get('username')} successfully deleted user with id -{id}")
        return jsonify({'msg': 'User deleted successfully','code':0})
         
     else:
@@ -724,6 +736,7 @@ def delete_book(id):
             # Attempt to delete the file
             fs.delete(ObjectId(id))
             client.close()
+            logging.info(f"Admin {auth_res.get('username')} successfully deleted book with id -{id}")
             return jsonify({'msg': 'Book deleted successfully','code':0})
         except Exception as e:
             # Handle any exceptions that may occur during deletion
@@ -935,6 +948,7 @@ def remove_picture(id):
                     'subscribed': userInfo.get('subscribed')
                 }
                 client.close()
+                logging.info(f"User {auth_res.get('username')} successfully removed  profile picture of user with id -{user_info.get('user_id')}")
                 return jsonify({'message':'Profile picture successfully removed from database', 'status':'ok','user_info':user_info,'code':0})
             except: 
                 client.close()
@@ -1009,6 +1023,7 @@ def change_profile():
             print(user_info)
 
             client.close()
+            logging.info(f"User {auth_res.get('username')} successfully changed profile picture of user with id -{user_info.get('user_id')}")
             return jsonify({'message':'Profile picture successfully changed!', 'status': 'ok', 'user_info':user_info,'code':0})
     except Exception as e:
         print(e)
@@ -1068,6 +1083,7 @@ def change_email():
                 }
 
                 client.close()
+                logging.info(f"User {auth_res.get('username')} successfully changed their email")
                 return jsonify({'message': 'Email succesfully changed!. A confirmation link has been sent to your new email', 'status':'ok','user_info':user_info,'code':0})
             except Exception as e:
                 print(e)
@@ -1125,6 +1141,7 @@ def change_username():
                 }
 
                 client.close()
+                logging.info(f"User {auth_res.get('username')} successfully changed their username")
                 return jsonify({'message': 'Username succesfully updated!', 'status':'ok','user_info':user_info,'code':0})
             except Exception as e:
                 print(e)
@@ -1166,6 +1183,7 @@ def change_password():
                     update = {'$set': {'password': hashed_password}}  
                     xtracker_users.update_one(query, update)
                     client.close()
+                    logging.info(f"User {auth_res.get('username')} successfully changed their password")
                     return jsonify({'message':'Password successfully changed!','status':'ok','code':0})
                 except Exception as e:
                     print(e)
@@ -1488,6 +1506,7 @@ def delete_post(id):
         post_dislikes.delete_many({'post_id':id})
 
         client.close()
+        logging.info(f"{auth_res.get('username')} successfully deleted post with id -{id}")
         return jsonify({'message':'Post deleted successfully!','status': 'ok','code':0})
     else:
         client.close()
@@ -1518,6 +1537,7 @@ def delete_comment(id):
         update = {'$set': {'comments':sum }}
         posts.update_one({'_id':ObjectId(result.get('post_id'))}, update)
         client.close()
+        logging.info(f"{auth_res.get('username')} successfully deleted comment with id -{id}")
         return jsonify({'message':'Comment deleted successfully!','comments': sum,'status': 'ok','code':0})
     else:
         client.close()
@@ -1544,6 +1564,7 @@ def delete_question(id):
         answers.delete_many({'question_id':id})
 
         client.close()
+        logging.info(f"{auth_res.get('username')} successfully deleted question with id -{id}")
         return jsonify({'message':'Question deleted successfully!','status': 'ok','code':0})
     else:
         client.close()
@@ -1565,6 +1586,7 @@ def delete_answer(id):
     res = answers.delete_one({'_id':ObjectId(id)})
     if res.deleted_count == 1:
         client.close()
+        logging.info(f"{auth_res.get('username')} successfully deleted answer with id -{id}")
         return jsonify({'message':'Answer deleted successfully!','status': 'ok','code':0})
     else:
         client.close()
@@ -1596,6 +1618,7 @@ def elevate_privileges():
     try:
         xtracker_users.update_one(query, update)
         client.close()
+        logging.info(f"Admin {auth_res.get('username')} successfully elevated privileges of user {result.get('username')}")
         return jsonify({'message':'Privilege elevation successful!','status': 'ok','code':0})
     except Exception as e:
         print(e)
@@ -1628,6 +1651,7 @@ def diminish_privileges():
     try:
         xtracker_users.update_one(query, update)
         client.close()
+        logging.info(f"Admin {auth_res.get('username')} successfully diminished privileges of user {result.get('username')}")
         return jsonify({'message':'Privilege diminishing successful!','status': 'ok','code':0})
     except Exception as e:
         print(e)
@@ -1666,6 +1690,7 @@ def google_login():
     token = generate_token(user_info)
     client.close()
     response = {'message':"Login successful", 'status':'ok', 'token': token, 'user_info': user_info}
+    logging.info(f"User {username} successfully logged in")
     return jsonify(response)
     
 
@@ -1687,6 +1712,7 @@ def remove_view(id):
     try:
         xtracker_users.update_one(query, update)
         client.close()
+        logging.info(f"Admin {auth_res.get('username')} successfully removed view access from user with id {id}")
         return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
     except Exception as e:
         print(e)
@@ -1712,6 +1738,7 @@ def remove_download(id):
     try:
         xtracker_users.update_one(query, update)
         client.close()
+        logging.info(f"Admin {auth_res.get('username')} successfully removed download access from user with id {id}")
         return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
     except Exception as e:
         print(e)
@@ -1741,6 +1768,7 @@ def grant_privilege():
         try:
             xtracker_users.update_one(query, update)
             client.close()
+            logging.info(f"Admin {auth_res.get('username')} successfully granted view access to user with id {id}")
             return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
         except Exception as e:
             print(e)
@@ -1754,6 +1782,7 @@ def grant_privilege():
         try:
             xtracker_users.update_one(query, update)
             client.close()
+            logging.info(f"Admin {auth_res.get('username')} successfully granted download access to user with id {id}")
             return jsonify({'message':'Privileges updated successfully!','status': 'ok','code':0})
         except Exception as e:
             print(e)
@@ -1794,6 +1823,46 @@ def get_permissions():
     else:
         client.close()
         return jsonify({'status': 'not ok','code':0})
+    
+
+@app.route('/get_profile/<string:id>')   
+def get_profile(id):
+    
+    
+    client = pymongo.MongoClient(url)
+    db = client["xtracker"]
+    xtracker_users = db['xtracker_users']
+
+    user_record = xtracker_users.find_one({'_id':ObjectId(id)})
+    
+    if user_record:
+        user_info = {
+            'user_id': str(user_record.get('_id')),
+            'username': user_record.get('username'),
+            'email': user_record.get('email'),
+            'confirmed': user_record.get('confirmed'),
+            'admin': user_record.get('admin'),
+            'profile_url': user_record.get('profile_url'),
+            'view_book': user_record.get('view_book'),
+            'download_book': user_record.get('download_book'),
+            'subscribed': user_record.get('subscribed'),
+            'google_auth': user_record.get('google_auth')
+        }
+
+        client.close()
+
+        log_list = []
+        with open('app.log','r') as log_file:
+            for line in log_file.readlines():
+                if user_info.get('username') in line:
+                    line = line.strip('\n')
+                    log_list.append(line)
+
+        log_list.reverse()
+        return jsonify({'log_list':log_list,'user_info':user_info,'status': 'ok','code':0})
+    else:
+        client.close()
+        return jsonify({'status': 'not ok','message':'Unsuccessful','code':0})
 
 
 if __name__ == '__main__':
