@@ -179,11 +179,11 @@ def signup():
             if not user_record:
                 hashed_password = generate_password_hash(password)
                 if role == 'admin':
-                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True,'profile_url':'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8'}
+                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True,'profile_url':'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8','view_book':True,'download_book':True,'subscribed':True}
                     xtracker_users.insert_one(data)
                     
                 else:
-                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False,'profile_url':'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8'}
+                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False,'profile_url':'https://kbbackend.onrender.com/user_profile/65391ee51bce770b901d1eb8','view_book':True,'download_book':True,'subscribed':True}
                     xtracker_users.insert_one(data)
                     
 
@@ -239,11 +239,11 @@ def add_user():
             if not profile_picture:
                 hashed_password = generate_password_hash(password)
                 if role == 'admin':
-                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True, 'profile_url':'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8'}
+                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True, 'profile_url':'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8','view_book':True,'download_book':True,'subscribed':True}
                     xtracker_users.insert_one(data)
                     client.close()
                 else:
-                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False, 'profile_url':'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8'}
+                    data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False, 'profile_url':'http://localhost:5000/user_profile/65391ee51bce770b901d1eb8','view_book':True,'download_book':True,'subscribed':True}
                     xtracker_users.insert_one(data)
                     client.close()
 
@@ -266,11 +266,11 @@ def add_user():
                 else:
                     hashed_password = generate_password_hash(password)
                     if role == 'admin':
-                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True, 'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}'}
+                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':True, 'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}','view_book':True,'download_book':True,'subscribed':True}
                         xtracker_users.insert_one(data)
                         client.close()
                     else:
-                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False, 'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}'}
+                        data = {'username': username, 'password': hashed_password, 'email': email, 'confirmed': False, 'admin':False, 'profile_url': f'https://kbbackend.onrender.com/user_profile/{file_id}','view_book':True,'download_book':True,'subscribed':True}
                         xtracker_users.insert_one(data)
                         client.close()
 
