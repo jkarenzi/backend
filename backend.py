@@ -1671,7 +1671,7 @@ def google_login():
 
     result = xtracker_users.find_one({'email':email,'google_auth':True})
     if not result:
-        data = {'username':username, 'email':email, 'admin':False, 'confirmed':True, 'profile_url':profile_url, 'google_auth':True}
+        data = {'username':username, 'email':email, 'admin':False, 'confirmed':True, 'profile_url':profile_url,'view_book':True,'download_book':True,'subscribed':True,'google_auth':True}
         xtracker_users.insert_one(data)
 
     user_record = xtracker_users.find_one({'email':email,'google_auth':True})
