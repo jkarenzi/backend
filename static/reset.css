@@ -37,8 +37,8 @@ header {
     flex-direction: column;
     border: 1px solid lightgray;
     border-radius: 8px;
-    width: 25rem;
-    height: 28rem;
+    width: 26rem;
+    height: 25rem;
     background: white;
     color: black;
     align-items: center;
@@ -46,7 +46,7 @@ header {
 }
 
 .container form {
-    margin-top: 1rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;

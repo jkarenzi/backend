@@ -19,7 +19,7 @@
             <div class="container1">
                 <div class="container">
                     {% if code == 1 %}
-                        <p class="p">Account: {{email}}</p>
+                        <p class="p" style="margin-top: 1rem;">Account: <span style="border-bottom:rgb(255, 132, 0);">{{email}}</span></p>
                         {% with messages = get_flashed_messages(category_filter=["error"]) %}
                             {% if messages %}
                                 <p class="error_msg">{{messages[0]}}</p>
