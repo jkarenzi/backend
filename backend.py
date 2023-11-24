@@ -1850,7 +1850,7 @@ def get_profile(id):
             for line in log_file.readlines():
                 if user_info.get('username') in line:
                     line = line.strip('\n')
-                    log_list.append(line)
+                    log_list.append(str(line))
 
         log_list.reverse()
 
