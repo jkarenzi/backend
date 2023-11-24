@@ -48,3 +48,39 @@
 2023-11-23 21: 15: 40 - INFO -  * Restarting with stat
 2023-11-23 21: 15: 40 - WARNING -  * Debugger is active!
 2023-11-23 21: 15: 40 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 00: 25: 03 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2023-11-24 00: 25: 03 - INFO - [33mPress CTRL+C to quit[0m
+2023-11-24 00: 25: 03 - INFO -  * Restarting with stat
+2023-11-24 00: 25: 04 - WARNING -  * Debugger is active!
+2023-11-24 00: 25: 04 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 00: 26: 23 - ERROR - 127.0.0.1 - - [24/Nov/2023 00:26:23] code 400, message Bad request version ('À\x13À')
+2023-11-24 00: 26: 23 - INFO - 127.0.0.1 - - [24/Nov/2023 00:26:23] "[31m[1m\x16\x03\x01\x00÷\x01\x00\x00ó\x03\x03ü\x09\x99r\x0c$C}£Ê\x9a539®!Ûõ)®¹ÅÙ3\x0d\\îH9ã}× z\x13p½À\x95ç\x06\x0f\x94\x12a<ýÛó¥\x8bðD\x95O¯lQÅÑ¼\x82¦c¼\x00$\x13\x01\x13\x02\x13\x03À/À+À0À,Ì©Ì¨À\x09À\x13À[0m" 400 -
+2023-11-24 00: 26: 45 - ERROR - 127.0.0.1 - - [24/Nov/2023 00:26:45] code 400, message Bad request syntax ('\x16\x03\x01\x00÷\x01\x00\x00ó\x03\x03u7Rî.n6Îbø\x9do¸\x89Ãôº\x80\x17\x01%\x8eÞ\x8e¢¶Äs')
+2023-11-24 00: 26: 45 - INFO - 127.0.0.1 - - [24/Nov/2023 00:26:45] "[31m[1m\x16\x03\x01\x00÷\x01\x00\x00ó\x03\x03u7Rî.n6Îbø\x9do¸\x89Ãôº\x80\x17\x01%\x8eÞ\x8e¢¶Äs[0m" 400 -
+2023-11-24 00: 26: 55 - ERROR - 127.0.0.1 - - [24/Nov/2023 00:26:55] code 400, message Bad request version ('À\x13À')
+2023-11-24 00: 26: 55 - INFO - 127.0.0.1 - - [24/Nov/2023 00:26:55] "[31m[1m\x16\x03\x01\x00÷\x01\x00\x00ó\x03\x03r#þg\x00$\x82Ù\x1cå÷\x07}û\x11R¯88½dåd\x0fõ}bù¢Ñ\x83ø SOÒ?\x04\x7f­]×á\x09\x92ÖC\x12\x00\x08Ë5G\x04¾c\x16¹Ð$%\x19·ðb\x00$\x13\x01\x13\x02\x13\x03À/À+À0À,Ì©Ì¨À\x09À\x13À[0m" 400 -
+2023-11-24 00: 27: 12 - ERROR - 127.0.0.1 - - [24/Nov/2023 00:27:12] code 400, message Bad request version ('À\x13À')
+2023-11-24 00: 27: 12 - INFO - 127.0.0.1 - - [24/Nov/2023 00:27:12] "[31m[1m\x16\x03\x01\x00÷\x01\x00\x00ó\x03\x03j\x16À\x9bz"\x8fb¬EH¡\x08´ÓÇ»D³ç¶Ú ö¨5§¸>" X ä½ñO«-¶4#î@ ªãçU,¿c\x8b£¨ns±;\x9e#/¯\x98\x9e\x00$\x13\x01\x13\x02\x13\x03À/À+À0À,Ì©Ì¨À\x09À\x13À[0m" 400 -
+2023-11-24 00: 27: 32 - INFO - User J Manzi Karenzi successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
+2023-11-24 00: 27: 33 - INFO - 127.0.0.1 - - [24/Nov/2023 00:27:33] "GET /download/6526d19cc3e9235abe2e8db0?id=655fc8fa9694a3a681191413 HTTP/1.1" 200 -
+2023-11-24 00: 31: 18 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 00: 31: 18 - INFO -  * Restarting with stat
+2023-11-24 00: 31: 19 - WARNING -  * Debugger is active!
+2023-11-24 00: 31: 19 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 00: 31: 36 - INFO - User J Manzi Karenzi successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
+2023-11-24 00: 31: 36 - INFO - 127.0.0.1 - - [24/Nov/2023 00:31:36] "GET /download/6526d19cc3e9235abe2e8db0?id=655fc8fa9694a3a681191413 HTTP/1.1" 200 -
+2023-11-24 11: 59: 05 - INFO - 127.0.0.1 - - [24/Nov/2023 11:59:05] "OPTIONS /download/6526d19cc3e9235abe2e8db0?id=65392d0f3f2d6299c55935a8 HTTP/1.1" 200 -
+2023-11-24 11: 59: 07 - INFO - User jkarenzi successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
+2023-11-24 11: 59: 07 - INFO - 127.0.0.1 - - [24/Nov/2023 11:59:07] "GET /download/6526d19cc3e9235abe2e8db0?id=65392d0f3f2d6299c55935a8 HTTP/1.1" 200 -
+2023-11-24 12: 20: 12 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 12: 20: 12 - INFO -  * Restarting with stat
+2023-11-24 12: 20: 15 - WARNING -  * Debugger is active!
+2023-11-24 12: 20: 15 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 12: 20: 24 - INFO - 127.0.0.1 - - [24/Nov/2023 12:20:24] "OPTIONS /download/6526d19cc3e9235abe2e8db0?id=65392d0f3f2d6299c55935a8 HTTP/1.1" 200 -
+2023-11-24 12: 20: 26 - INFO - User jkarenzi successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
+2023-11-24 12: 20: 26 - INFO - 127.0.0.1 - - [24/Nov/2023 12:20:26] "GET /download/6526d19cc3e9235abe2e8db0?id=65392d0f3f2d6299c55935a8 HTTP/1.1" 200 -
+2023-11-24 12: 34: 05 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 12: 34: 05 - INFO -  * Restarting with stat

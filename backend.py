@@ -637,19 +637,9 @@ def get_books():
 
 @app.route('/download/<string:file_id>')
 def download_file(file_id):
-    user_id = request.args.get('id')
-
-    client = pymongo.MongoClient(url)
-    db = client["xtracker"]
-    xtracker_users = db['xtracker_users']
-
-    user_record = xtracker_users.find_one({'_id':ObjectId(user_id)})
-    print(user_record)
-    if user_record.get('download_book') == False:
-        client.close()
-        return jsonify({'status':'not ok'}),404
-
+    user_id = request.args.get('user_id')
     # Connect to MongoDB
+    client = pymongo.MongoClient(url)
     db = client["knowledgebridge"]
     fs = GridFS(db)
 
@@ -668,7 +658,7 @@ def download_file(file_id):
         mimetype='application/pdf'
     )
     client.close()
-    logging.info(f"User {user_record.get('username')} successfully downloaded book -{file.filename}")
+    logging.info(f"User with id -{user_id} successfully downloaded book -{file.filename}")
     return response
 
 
