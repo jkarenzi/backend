@@ -130,3 +130,5 @@
 2023-11-24 13: 55: 59 - INFO - 127.0.0.1 - - [24/Nov/2023 13:55:59] "GET /get_profile/6548c7bb32cd2a836cc88a2a HTTP/1.1" 200 -
 2023-11-24 13: 57: 13 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
 2023-11-24 13: 57: 14 - INFO -  * Restarting with stat
+2023-11-24 13: 57: 15 - WARNING -  * Debugger is active!
+2023-11-24 13: 57: 15 - INFO -  * Debugger PIN: 929-584-443
