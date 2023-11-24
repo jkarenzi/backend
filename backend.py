@@ -1817,7 +1817,11 @@ def get_permissions():
 
 @app.route('/get_profile/<string:id>')   
 def get_profile(id):
-    
+    auth_token = request.headers.get('Authorization')
+    auth_res = decode_token(auth_token)
+
+    if auth_res['code'] != 1:
+        return jsonify(auth_res)
     
     client = pymongo.MongoClient(url)
     db = client["xtracker"]

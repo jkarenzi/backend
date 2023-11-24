@@ -127,3 +127,6 @@
 2023-11-24 13: 49: 10 - INFO - User with id -655fc8fa9694a3a681191413 successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
 2023-11-24 13: 49: 10 - INFO - 127.0.0.1 - - [24/Nov/2023 13:49:10] "GET /download/6526d19cc3e9235abe2e8db0?user_id=655fc8fa9694a3a681191413 HTTP/1.1" 200 -
 2023-11-24 13: 55: 00 - INFO - 127.0.0.1 - - [24/Nov/2023 13:55:00] "GET /get_profile/655fc8fa9694a3a681191413 HTTP/1.1" 200 -
+2023-11-24 13: 55: 59 - INFO - 127.0.0.1 - - [24/Nov/2023 13:55:59] "GET /get_profile/6548c7bb32cd2a836cc88a2a HTTP/1.1" 200 -
+2023-11-24 13: 57: 13 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 13: 57: 14 - INFO -  * Restarting with stat
