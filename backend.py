@@ -794,6 +794,8 @@ def get_questions():
     list_results = []
     for result in results:
         user_record = xtracker_users.find_one(ObjectId(result.get('user_id')))
+        if not user_record:
+            continue
         datetime_object = datetime.datetime.strptime(str(result.get('created_at')), '%Y-%m-%d %H:%M:%S.%f')
         formatted_date = datetime_object.strftime('%b %d, %I:%M%p')
         object = {
@@ -875,6 +877,8 @@ def get_posts():
     list_results = []
     for result in results: 
         user_record = xtracker_users.find_one(ObjectId(result.get('user_id')))
+        if not user_record:
+            continue
         datetime_object = datetime.datetime.strptime(str(result.get('created_at')), '%Y-%m-%d %H:%M:%S.%f')
         formatted_date = datetime_object.strftime('%b %d, %I:%M%p')
         object = {
@@ -1366,6 +1370,8 @@ def get_answers(id):
         list_results = []
         for result in results:
             user_record = xtracker_users.find_one(ObjectId(result.get('user_id')))
+            if not user_record:
+                continue
             datetime_object = datetime.datetime.strptime(str(result.get('created_at')), '%Y-%m-%d %H:%M:%S.%f')
             formatted_date = datetime_object.strftime('%b %d, %I:%M%p')
             object = {
@@ -1445,6 +1451,8 @@ def get_comments(id):
         list_results = []
         for result in results:
             user_record = xtracker_users.find_one(ObjectId(result.get('user_id')))
+            if not user_record:
+                continue
             datetime_object = datetime.datetime.strptime(str(result.get('created_at')), '%Y-%m-%d %H:%M:%S.%f')
             formatted_date = datetime_object.strftime('%b %d, %I:%M%p')
 

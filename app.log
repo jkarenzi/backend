@@ -6,3 +6,36 @@
 2023-11-24 14: 24: 05 - INFO -  * Restarting with stat
 2023-11-24 14: 24: 06 - WARNING -  * Debugger is active!
 2023-11-24 14: 24: 06 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 14: 30: 19 - INFO - 127.0.0.1 - - [24/Nov/2023 14:30:19] "OPTIONS /forgot_password HTTP/1.1" 200 -
+2023-11-24 14: 30: 24 - INFO - 127.0.0.1 - - [24/Nov/2023 14:30:24] "POST /forgot_password HTTP/1.1" 200 -
+2023-11-24 14: 56: 47 - INFO - 127.0.0.1 - - [24/Nov/2023 14:56:47] "OPTIONS /forgot_password HTTP/1.1" 200 -
+2023-11-24 14: 56: 51 - INFO - 127.0.0.1 - - [24/Nov/2023 14:56:51] "POST /forgot_password HTTP/1.1" 200 -
+2023-11-24 15: 08: 43 - INFO - 127.0.0.1 - - [24/Nov/2023 15:08:43] "OPTIONS /forgot_password HTTP/1.1" 200 -
+2023-11-24 15: 08: 48 - INFO - 127.0.0.1 - - [24/Nov/2023 15:08:48] "POST /forgot_password HTTP/1.1" 200 -
+2023-11-24 17: 56: 46 - INFO - 127.0.0.1 - - [24/Nov/2023 17:56:46] "GET /get_posts?posts=0 HTTP/1.1" 200 -
+2023-11-24 17: 59: 00 - INFO - 127.0.0.1 - - [24/Nov/2023 17:59:00] "[35m[1mGET /get_posts?posts=0 HTTP/1.1[0m" 500 -
+2023-11-24 18: 02: 15 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 18: 02: 16 - INFO -  * Restarting with stat
+2023-11-24 18: 02: 17 - WARNING -  * Debugger is active!
+2023-11-24 18: 02: 17 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 18: 02: 36 - INFO - 127.0.0.1 - - [24/Nov/2023 18:02:36] "[35m[1mGET /get_posts?posts=0 HTTP/1.1[0m" 500 -
+2023-11-24 18: 05: 04 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 18: 05: 04 - INFO -  * Restarting with stat
+2023-11-24 18: 05: 05 - WARNING -  * Debugger is active!
+2023-11-24 18: 05: 05 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 18: 05: 12 - INFO - 127.0.0.1 - - [24/Nov/2023 18:05:12] "GET /get_posts?posts=0 HTTP/1.1" 200 -
+2023-11-24 18: 11: 02 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 18: 11: 02 - INFO -  * Restarting with stat
+2023-11-24 18: 11: 03 - WARNING -  * Debugger is active!
+2023-11-24 18: 11: 03 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 18: 11: 59 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 18: 11: 59 - INFO -  * Restarting with stat
+2023-11-24 18: 12: 00 - WARNING -  * Debugger is active!
+2023-11-24 18: 12: 00 - INFO -  * Debugger PIN: 929-584-443
+2023-11-24 18: 12: 12 - INFO - 127.0.0.1 - - [24/Nov/2023 18:12:12] "GET /get_posts?posts=0 HTTP/1.1" 200 -
+2023-11-24 18: 16: 15 - INFO - 127.0.0.1 - - [24/Nov/2023 18:16:15] "[35m[1mGET /get_posts?posts=1 HTTP/1.1[0m" 500 -
+2023-11-24 18: 17: 04 - INFO - 127.0.0.1 - - [24/Nov/2023 18:17:04] "GET /get_posts?posts=1 HTTP/1.1" 200 -
+2023-11-24 18: 19: 51 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-24 18: 19: 51 - INFO -  * Restarting with stat
+2023-11-24 18: 19: 53 - WARNING -  * Debugger is active!
+2023-11-24 18: 19: 53 - INFO -  * Debugger PIN: 929-584-443
