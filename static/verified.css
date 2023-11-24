@@ -7,6 +7,30 @@ body {
     font-size: xx-large;
 }
 
+.home_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+    height: 4.5rem;
+    width: 100%;
+    box-shadow: 2px 3px 4px lightgray;
+}
+
+.kb_logo{
+    margin-left: 2rem;
+    font-size: larger;
+    font-weight: 800;
+}
+
+#kb_logo {
+    background-color: rgb(255, 132, 0);
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin-left: 0.2rem;
+}
+
 .message {
     display: flex;
     flex-direction: column;
