@@ -637,29 +637,34 @@ def get_books():
 
 @app.route('/download/<string:file_id>')
 def download_file(file_id):
-    user_id = request.args.get('user_id')
-    # Connect to MongoDB
-    client = pymongo.MongoClient(url)
-    db = client["knowledgebridge"]
-    fs = GridFS(db)
+    try:
+        user_id = request.args.get('user_id')
+        # Connect to MongoDB
+        client = pymongo.MongoClient(url)
+        db = client["knowledgebridge"]
+        fs = GridFS(db)
 
-    # Fetch the requested PDF file from GridFS
-    file_id = ObjectId(file_id)
-    file = fs.get(file_id)
-    if file is None:
+        # Fetch the requested PDF file from GridFS
+        file_id = ObjectId(file_id)
+        file = fs.get(file_id)
+        if file is None:
+            client.close()
+            return 'File not found', 404
+
+        # Serve the PDF file for download
+        response = send_file(
+            file,
+            as_attachment=True,
+            download_name=file.filename,
+            mimetype='application/pdf'
+        )
         client.close()
-        return 'File not found', 404
-
-    # Serve the PDF file for download
-    response = send_file(
-        file,
-        as_attachment=True,
-        download_name=file.filename,
-        mimetype='application/pdf'
-    )
-    client.close()
-    logging.info(f"User with id -{user_id} successfully downloaded book -{file.filename}")
-    return response
+        logging.info(f"User with id -{user_id} successfully downloaded book -{file.filename}")
+        return response
+    except Exception as e:
+        print(e)
+        client.close()
+        return 'Error',500
 
 
 @app.route('/get_pdf/<string:file_id>')
@@ -783,9 +788,9 @@ def get_questions():
     if query:
         
         regex_pattern = re.compile(query, re.IGNORECASE) 
-        results = questions.find({"question": {"$regex": regex_pattern}}).skip(number_questions).limit(3).sort("created_at", -1)
+        results = questions.find({"question": {"$regex": regex_pattern}}).skip(number_questions).limit(5).sort("created_at", -1)
     else:
-        results = questions.find().skip(number_questions).limit(3).sort("created_at", -1)
+        results = questions.find().skip(number_questions).limit(5).sort("created_at", -1)
 
     
     db = client["xtracker"]
@@ -866,9 +871,9 @@ def get_posts():
 
     if query:
         regex_pattern = re.compile(query, re.IGNORECASE) 
-        results = posts.find({"user_post": {"$regex": regex_pattern}}).skip(number_posts).limit(1).sort("created_at", -1)
+        results = posts.find({"user_post": {"$regex": regex_pattern}}).skip(number_posts).limit(5).sort("created_at", -1)
     else:
-        results = posts.find().sort("created_at", -1).skip(number_posts).limit(1).sort("created_at", -1)
+        results = posts.find().sort("created_at", -1).skip(number_posts).limit(5).sort("created_at", -1)
 
 
     db = client["xtracker"]

@@ -39,3 +39,35 @@
 2023-11-24 18: 19: 51 - INFO -  * Restarting with stat
 2023-11-24 18: 19: 53 - WARNING -  * Debugger is active!
 2023-11-24 18: 19: 53 - INFO -  * Debugger PIN: 929-584-443
+2023-11-27 18: 14: 00 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2023-11-27 18: 14: 00 - INFO - [33mPress CTRL+C to quit[0m
+2023-11-27 18: 14: 00 - INFO -  * Restarting with stat
+2023-11-27 18: 14: 01 - WARNING -  * Debugger is active!
+2023-11-27 18: 14: 01 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 18: 15: 52 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
+2023-11-27 18: 15: 52 - INFO - 127.0.0.1 - - [27/Nov/2023 18:15:52] "GET /download/6526d19cc3e9235abe2e8db0?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-27 18: 19: 20 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-27 18: 19: 20 - INFO -  * Restarting with stat
+2023-11-27 18: 19: 21 - WARNING -  * Debugger is active!
+2023-11-27 18: 19: 21 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 18: 19: 32 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -Brief Answers to the Big Questions.pdf
+2023-11-27 18: 19: 32 - INFO - 127.0.0.1 - - [27/Nov/2023 18:19:32] "GET /download/65259e85f776644fa4fd68f7?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-27 18: 20: 01 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-27 18: 20: 01 - INFO -  * Restarting with stat
+2023-11-27 18: 20: 02 - WARNING -  * Debugger is active!
+2023-11-27 18: 20: 02 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 18: 20: 12 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -Goosebumps 09 welcome to camp nightmare.pdf
+2023-11-27 18: 20: 13 - INFO - 127.0.0.1 - - [27/Nov/2023 18:20:13] "GET /download/6526d19cc3e9235abe2e8db3?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-27 18: 22: 32 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-27 18: 22: 32 - INFO -  * Restarting with stat
+2023-11-27 18: 22: 34 - WARNING -  * Debugger is active!
+2023-11-27 18: 22: 34 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 19: 22: 37 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-27 19: 22: 37 - INFO -  * Restarting with stat
+2023-11-27 19: 22: 44 - WARNING -  * Debugger is active!
+2023-11-27 19: 22: 44 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 19: 25: 23 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-27 19: 25: 23 - INFO -  * Restarting with stat
