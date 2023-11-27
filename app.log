@@ -71,3 +71,7 @@
 2023-11-27 19: 22: 44 - INFO -  * Debugger PIN: 393-112-654
 2023-11-27 19: 25: 23 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
 2023-11-27 19: 25: 23 - INFO -  * Restarting with stat
+2023-11-27 19: 25: 24 - WARNING -  * Debugger is active!
+2023-11-27 19: 25: 24 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 19: 26: 29 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -Goosebumps 08 the girl who cried monster.pdf
+2023-11-27 19: 26: 29 - INFO - 127.0.0.1 - - [27/Nov/2023 19:26:29] "GET /download/6526d19cc3e9235abe2e8db0?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
