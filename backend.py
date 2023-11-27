@@ -639,32 +639,26 @@ def get_books():
 def download_file(file_id):
     try:
         user_id = request.args.get('user_id')
-        # Connect to MongoDB
+
         client = pymongo.MongoClient(url)
         db = client["knowledgebridge"]
         fs = GridFS(db)
 
-        # Fetch the requested PDF file from GridFS
         file_id = ObjectId(file_id)
         file = fs.get(file_id)
-        if file is None:
-            client.close()
-            return 'File not found', 404
 
-        # Serve the PDF file for download
         response = send_file(
             file,
             as_attachment=True,
             download_name=file.filename,
             mimetype='application/pdf'
         )
-        client.close()
+
         logging.info(f"User with id -{user_id} successfully downloaded book -{file.filename}")
         return response
     except Exception as e:
         print(e)
-        client.close()
-        return 'Error',500
+        return "none"
 
 
 @app.route('/get_pdf/<string:file_id>')
