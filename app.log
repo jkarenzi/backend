@@ -103,3 +103,13 @@
 2023-11-27 19: 57: 18 - INFO - 127.0.0.1 - - [27/Nov/2023 19:57:18] "GET /download/6560c1a0d14bf18de03087e5?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
 2023-11-27 19: 58: 02 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
 2023-11-27 19: 58: 02 - INFO -  * Restarting with stat
+2023-11-27 19: 58: 03 - WARNING -  * Debugger is active!
+2023-11-27 19: 58: 03 - INFO -  * Debugger PIN: 393-112-654
+2023-11-27 19: 58: 17 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -The God Delusion -Richard Dawkins.pdf
+2023-11-27 19: 58: 19 - INFO - 127.0.0.1 - - [27/Nov/2023 19:58:19] "GET /download/6560c1a0d14bf18de03087e5?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-27 19: 58: 33 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -The God Delusion -Richard Dawkins.pdf
+2023-11-27 19: 58: 34 - INFO - 127.0.0.1 - - [27/Nov/2023 19:58:34] "GET /download/6560c1a0d14bf18de03087e5?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-27 19: 58: 58 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -God Is Not Great How Religion Poisons Everything -Christopher Hitchens.pdf
+2023-11-27 19: 58: 59 - INFO - 127.0.0.1 - - [27/Nov/2023 19:58:59] "GET /download/6560c1a8d14bf18de03087f1?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-27 19: 59: 15 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\dummy.py', reloading
+2023-11-27 19: 59: 15 - INFO -  * Restarting with stat
