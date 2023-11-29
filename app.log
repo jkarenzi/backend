@@ -175,3 +175,29 @@
 2023-11-29 13: 07: 28 - INFO -  * Restarting with stat
 2023-11-29 13: 07: 29 - WARNING -  * Debugger is active!
 2023-11-29 13: 07: 29 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 33: 59 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 34: 00 - INFO -  * Restarting with stat
+2023-11-29 13: 34: 01 - WARNING -  * Debugger is active!
+2023-11-29 13: 34: 01 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 34: 49 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 34: 50 - INFO -  * Restarting with stat
+2023-11-29 13: 34: 51 - WARNING -  * Debugger is active!
+2023-11-29 13: 34: 51 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 37: 35 - INFO - 192.168.1.65 - - [29/Nov/2023 13:37:35] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 13: 39: 15 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 39: 15 - INFO -  * Restarting with stat
+2023-11-29 13: 39: 16 - WARNING -  * Debugger is active!
+2023-11-29 13: 39: 16 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 39: 35 - INFO - 192.168.1.65 - - [29/Nov/2023 13:39:35] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 13: 39: 39 - INFO - User jkarenzi logged in
+2023-11-29 13: 39: 39 - INFO - 192.168.1.65 - - [29/Nov/2023 13:39:39] "POST /login HTTP/1.1" 200 -
+2023-11-29 13: 42: 29 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 42: 29 - INFO -  * Restarting with stat
+2023-11-29 13: 42: 30 - WARNING -  * Debugger is active!
+2023-11-29 13: 42: 30 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 43: 33 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 43: 33 - INFO -  * Restarting with stat
+2023-11-29 13: 43: 34 - WARNING -  * Debugger is active!
+2023-11-29 13: 43: 34 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 43: 59 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 44: 00 - INFO -  * Restarting with stat

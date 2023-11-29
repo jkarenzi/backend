@@ -117,12 +117,12 @@ def get_login_data():
             stored_password = user_record['password']
             if check_password_hash(stored_password, password):
                 user_ip = request.remote_addr
+                print(user_ip)
                 api_key = '0aa6e517f25b0a'
                 response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
                 data = response.json()
                 
-                if 'loc' in data:
-                    xtracker_users.update_one({'username':username},{'$set':{'location':data}})
+                xtracker_users.update_one({'username':username},{'$set':{'location':data}})
                 
                 user_info = {
                     'user_id': str(user_record.get('_id')),
@@ -144,7 +144,7 @@ def get_login_data():
                 return jsonify(response)
             else:
                 client.close()
-                logging.info(f"User {user_info.get('username')} -failed login attempt")
+                logging.info(f"User {username} -failed login attempt")
                 response = {'message':"Invalid password", 'status':'Not ok'}
                 return jsonify(response)
         else:
@@ -1699,9 +1699,8 @@ def google_login():
     api_key = '0aa6e517f25b0a'
     response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
     data = response.json()
-    
-    if 'loc' in data:
-        xtracker_users.update_one({'email':email,'google_auth':True},{'$set':{'location':data}})
+      
+    xtracker_users.update_one({'email':email,'google_auth':True},{'$set':{'location':data}})
 
     client.close()
     response = {'message':"Login successful", 'status':'ok', 'token': token, 'user_info': user_info}
