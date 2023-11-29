@@ -123,3 +123,53 @@
 2023-11-27 20: 00: 13 - INFO -  * Restarting with stat
 2023-11-27 20: 00: 14 - WARNING -  * Debugger is active!
 2023-11-27 20: 00: 14 - INFO -  * Debugger PIN: 393-112-654
+2023-11-28 11: 27: 12 - INFO - User with id -6560c486d14bf18de0308820 successfully downloaded book -Goosebumps 02 stay out of the basement.pdf
+2023-11-28 11: 27: 13 - INFO - 127.0.0.1 - - [28/Nov/2023 11:27:13] "GET /download/6526d19cc3e9235abe2e8d9e?user_id=6560c486d14bf18de0308820 HTTP/1.1" 200 -
+2023-11-29 11: 37: 43 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2023-11-29 11: 37: 43 - INFO - [33mPress CTRL+C to quit[0m
+2023-11-29 11: 37: 43 - INFO -  * Restarting with stat
+2023-11-29 11: 37: 44 - WARNING -  * Debugger is active!
+2023-11-29 11: 37: 44 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 11: 39: 08 - INFO - 127.0.0.1 - - [29/Nov/2023 11:39:08] "GET /get_geolocation HTTP/1.1" 200 -
+2023-11-29 11: 45: 07 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 11: 45: 07 - INFO -  * Restarting with stat
+2023-11-29 11: 45: 08 - WARNING -  * Debugger is active!
+2023-11-29 11: 45: 08 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 11: 45: 25 - INFO - 127.0.0.1 - - [29/Nov/2023 11:45:25] "GET /get_geolocation HTTP/1.1" 200 -
+2023-11-29 11: 47: 01 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 11: 47: 01 - INFO -  * Restarting with stat
+2023-11-29 11: 47: 01 - WARNING -  * Debugger is active!
+2023-11-29 11: 47: 01 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 11: 47: 07 - INFO - 127.0.0.1 - - [29/Nov/2023 11:47:07] "GET /get_geolocation HTTP/1.1" 200 -
+2023-11-29 11: 47: 21 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 11: 47: 21 - INFO -  * Restarting with stat
+2023-11-29 11: 47: 21 - WARNING -  * Debugger is active!
+2023-11-29 11: 47: 21 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 11: 47: 24 - INFO - 127.0.0.1 - - [29/Nov/2023 11:47:24] "GET /get_geolocation HTTP/1.1" 200 -
+2023-11-29 12: 40: 27 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 12: 40: 27 - INFO -  * Restarting with stat
+2023-11-29 12: 40: 27 - WARNING -  * Debugger is active!
+2023-11-29 12: 40: 27 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 12: 48: 27 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 12: 48: 27 - INFO -  * Restarting with stat
+2023-11-29 12: 48: 34 - WARNING -  * Debugger is active!
+2023-11-29 12: 48: 34 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 12: 49: 33 - INFO - User jkarenzi logged in
+2023-11-29 12: 49: 33 - INFO - 127.0.0.1 - - [29/Nov/2023 12:49:33] "POST /login HTTP/1.1" 200 -
+2023-11-29 12: 54: 49 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 12: 54: 49 - INFO -  * Restarting with stat
+2023-11-29 12: 54: 50 - WARNING -  * Debugger is active!
+2023-11-29 12: 54: 50 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 12: 56: 00 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 12: 56: 00 - INFO -  * Restarting with stat
+2023-11-29 12: 56: 01 - WARNING -  * Debugger is active!
+2023-11-29 12: 56: 01 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 07: 08 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 07: 09 - INFO -  * Restarting with stat
+2023-11-29 13: 07: 10 - WARNING -  * Debugger is active!
+2023-11-29 13: 07: 10 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 13: 07: 28 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 13: 07: 28 - INFO -  * Restarting with stat

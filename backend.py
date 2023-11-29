@@ -11,6 +11,7 @@ import jwt
 import datetime
 from urllib.parse import quote_plus
 import logging
+import requests
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
@@ -115,6 +116,13 @@ def get_login_data():
         if user_record:
             stored_password = user_record['password']
             if check_password_hash(stored_password, password):
+                user_ip = request.remote_addr
+                api_key = '0aa6e517f25b0a'
+                response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
+                data = response.json()
+                
+                if 'loc' in data:
+                    xtracker_users.update_one({'username':username},{'$set':{'location':data}})
                 
                 user_info = {
                     'user_id': str(user_record.get('_id')),
@@ -1685,6 +1693,16 @@ def google_login():
         'subscribed': user_record.get('subscribed')
     }
     token = generate_token(user_info)
+    
+
+    user_ip = request.remote_addr
+    api_key = '0aa6e517f25b0a'
+    response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
+    data = response.json()
+    
+    if 'loc' in data:
+        xtracker_users.update_one({'email':email,'google_auth':True},{'$set':{'location':data}})
+
     client.close()
     response = {'message':"Login successful", 'status':'ok', 'token': token, 'user_info': user_info}
     logging.info(f"User {username} successfully logged in")
@@ -1855,13 +1873,12 @@ def get_profile(id):
         log_list = []
         with open('app.log','r') as log_file:
             for line in log_file.readlines():
-                if user_info.get('username') in line:
+                if user_info.get('username') in line or user_info.get('user_id') in line:
                     line = line.strip('\n')
                     log_list.append(str(line))
 
         log_list.reverse()
 
-      
         return jsonify({'log_list':log_list[:10],'user_info':user_info,'status': 'ok','code':0})
     else:
         client.close()
