@@ -239,3 +239,8 @@
 2023-11-29 14: 36: 22 - INFO - 192.168.1.65 - - [29/Nov/2023 14:36:22] "OPTIONS /login HTTP/1.1" 200 -
 2023-11-29 14: 36: 54 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
 2023-11-29 14: 36: 54 - INFO -  * Restarting with stat
+2023-11-29 14: 36: 55 - WARNING -  * Debugger is active!
+2023-11-29 14: 36: 55 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 37: 02 - INFO - 192.168.1.65 - - [29/Nov/2023 14:37:02] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 37: 06 - INFO - User jkarenzi logged in
+2023-11-29 14: 37: 06 - INFO - 192.168.1.65 - - [29/Nov/2023 14:37:06] "POST /login HTTP/1.1" 200 -
