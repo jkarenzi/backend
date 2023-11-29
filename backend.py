@@ -1697,8 +1697,9 @@ def google_login():
     }
     token = generate_token(user_info)
     
+    x_forwarded_for = request.headers.get('X-Forwarded-For')
+    user_ip = x_forwarded_for.split(',')[0].strip()
 
-    user_ip = request.remote_addr
     api_key = '0aa6e517f25b0a'
     response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
     data = response.json()

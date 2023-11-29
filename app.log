@@ -256,3 +256,5 @@
 2023-11-29 15: 06: 34 - INFO -  * Restarting with stat
 2023-11-29 15: 06: 35 - WARNING -  * Debugger is active!
 2023-11-29 15: 06: 35 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 15: 25: 03 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 15: 25: 03 - INFO -  * Restarting with stat
