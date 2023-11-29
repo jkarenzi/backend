@@ -203,3 +203,39 @@
 2023-11-29 13: 44: 00 - INFO -  * Restarting with stat
 2023-11-29 13: 44: 01 - WARNING -  * Debugger is active!
 2023-11-29 13: 44: 01 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 29: 21 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 14: 29: 21 - INFO -  * Restarting with stat
+2023-11-29 14: 29: 22 - WARNING -  * Debugger is active!
+2023-11-29 14: 29: 22 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 30: 06 - INFO - 127.0.0.1 - - [29/Nov/2023 14:30:06] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 30: 10 - INFO - 127.0.0.1 - - [29/Nov/2023 14:30:10] "POST /login HTTP/1.1" 200 -
+2023-11-29 14: 30: 39 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 14: 30: 39 - INFO -  * Restarting with stat
+2023-11-29 14: 30: 40 - WARNING -  * Debugger is active!
+2023-11-29 14: 30: 40 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 31: 04 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.64:5000
+2023-11-29 14: 31: 04 - INFO - [33mPress CTRL+C to quit[0m
+2023-11-29 14: 31: 04 - INFO -  * Restarting with stat
+2023-11-29 14: 31: 05 - WARNING -  * Debugger is active!
+2023-11-29 14: 31: 05 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 31: 17 - INFO - 127.0.0.1 - - [29/Nov/2023 14:31:17] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 31: 21 - INFO - 127.0.0.1 - - [29/Nov/2023 14:31:21] "POST /login HTTP/1.1" 200 -
+2023-11-29 14: 32: 22 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 14: 32: 23 - INFO -  * Restarting with stat
+2023-11-29 14: 32: 24 - WARNING -  * Debugger is active!
+2023-11-29 14: 32: 24 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 32: 37 - INFO - 127.0.0.1 - - [29/Nov/2023 14:32:37] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 32: 41 - INFO - User jkarenzi logged in
+2023-11-29 14: 32: 41 - INFO - 127.0.0.1 - - [29/Nov/2023 14:32:41] "POST /login HTTP/1.1" 200 -
+2023-11-29 14: 34: 59 - INFO - 192.168.1.65 - - [29/Nov/2023 14:34:59] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 36: 13 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 14: 36: 13 - INFO -  * Restarting with stat
+2023-11-29 14: 36: 14 - WARNING -  * Debugger is active!
+2023-11-29 14: 36: 14 - INFO -  * Debugger PIN: 393-112-654
+2023-11-29 14: 36: 17 - INFO - 192.168.1.65 - - [29/Nov/2023 14:36:17] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 36: 22 - INFO - 192.168.1.65 - - [29/Nov/2023 14:36:22] "OPTIONS /login HTTP/1.1" 200 -
+2023-11-29 14: 36: 54 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-11-29 14: 36: 54 - INFO -  * Restarting with stat

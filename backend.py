@@ -14,7 +14,7 @@ import logging
 import requests
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['SECRET_KEY'] = 'KMJ123456789'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -118,6 +118,7 @@ def get_login_data():
             if check_password_hash(stored_password, password):
                 user_ip = request.remote_addr
                 print(user_ip)
+
                 api_key = '0aa6e517f25b0a'
                 response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
                 data = response.json()
