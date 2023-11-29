@@ -116,8 +116,10 @@ def get_login_data():
         if user_record:
             stored_password = user_record['password']
             if check_password_hash(stored_password, password):
-                user_ip = request.remote_addr
-                print(user_ip)
+                
+                x_forwarded_for = request.headers.get('X-Forwarded-For')
+                user_ip = x_forwarded_for.split(',')[0].strip()
+                
 
                 api_key = '0aa6e517f25b0a'
                 response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
