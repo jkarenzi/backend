@@ -13,9 +13,6 @@ from urllib.parse import quote_plus
 import logging
 import requests
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
