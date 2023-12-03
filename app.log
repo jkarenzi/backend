@@ -280,3 +280,51 @@
 2023-12-03 18: 33: 47 - INFO -  * Restarting with stat
 2023-12-03 18: 33: 49 - WARNING -  * Debugger is active!
 2023-12-03 18: 33: 49 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 47: 23 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 47: 23 - INFO -  * Restarting with stat
+2023-12-03 18: 47: 23 - WARNING -  * Debugger is active!
+2023-12-03 18: 47: 23 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 48: 25 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 48: 25 - INFO -  * Restarting with stat
+2023-12-03 18: 48: 26 - WARNING -  * Debugger is active!
+2023-12-03 18: 48: 26 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 49: 57 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 49: 57 - INFO -  * Restarting with stat
+2023-12-03 18: 49: 58 - WARNING -  * Debugger is active!
+2023-12-03 18: 49: 58 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 50: 42 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 50: 42 - INFO -  * Restarting with stat
+2023-12-03 18: 50: 43 - WARNING -  * Debugger is active!
+2023-12-03 18: 50: 43 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 52: 01 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 52: 01 - INFO -  * Restarting with stat
+2023-12-03 18: 52: 02 - WARNING -  * Debugger is active!
+2023-12-03 18: 52: 02 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 52: 50 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 52: 50 - INFO -  * Restarting with stat
+2023-12-03 18: 52: 51 - WARNING -  * Debugger is active!
+2023-12-03 18: 52: 51 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 53: 09 - INFO -  * Detected change in 'd:\\computer science\\web app\\knowledgebridge\\backend\\backend.py', reloading
+2023-12-03 18: 53: 09 - INFO -  * Restarting with stat
+2023-12-03 18: 53: 10 - WARNING -  * Debugger is active!
+2023-12-03 18: 53: 10 - INFO -  * Debugger PIN: 393-112-654
+2023-12-03 18: 57: 30 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2023-12-03 18: 57: 30 - INFO - [33mPress CTRL+C to quit[0m
+2023-12-03 18: 57: 45 - INFO - 127.0.0.1 - - [03/Dec/2023 18:57:45] "POST /login HTTP/1.1" 200 -
+2023-12-03 18: 59: 43 - INFO - 127.0.0.1 - - [03/Dec/2023 18:59:43] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 00: 26 - INFO - 127.0.0.1 - - [03/Dec/2023 19:00:26] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 01: 19 - INFO - 127.0.0.1 - - [03/Dec/2023 19:01:19] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 03: 06 - INFO - 127.0.0.1 - - [03/Dec/2023 19:03:06] "OPTIONS /login HTTP/1.1" 200 -
+2023-12-03 19: 03: 09 - INFO - 127.0.0.1 - - [03/Dec/2023 19:03:09] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 05: 31 - INFO - 127.0.0.1 - - [03/Dec/2023 19:05:31] "OPTIONS /login HTTP/1.1" 200 -
+2023-12-03 19: 05: 34 - INFO - 127.0.0.1 - - [03/Dec/2023 19:05:34] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 07: 09 - INFO - 127.0.0.1 - - [03/Dec/2023 19:07:09] "OPTIONS /login HTTP/1.1" 200 -
+2023-12-03 19: 07: 12 - INFO - 127.0.0.1 - - [03/Dec/2023 19:07:12] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 08: 08 - INFO - 127.0.0.1 - - [03/Dec/2023 19:08:08] "OPTIONS /login HTTP/1.1" 200 -
+2023-12-03 19: 08: 11 - INFO - 127.0.0.1 - - [03/Dec/2023 19:08:11] "POST /login HTTP/1.1" 200 -
+2023-12-03 19: 08: 50 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2023-12-03 19: 08: 50 - INFO - [33mPress CTRL+C to quit[0m
+2023-12-03 19: 08: 56 - INFO - 127.0.0.1 - - [03/Dec/2023 19:08:56] "OPTIONS /login HTTP/1.1" 200 -
+2023-12-03 19: 08: 59 - INFO - 127.0.0.1 - - [03/Dec/2023 19:08:59] "POST /login HTTP/1.1" 200 -

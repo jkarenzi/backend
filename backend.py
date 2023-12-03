@@ -13,6 +13,9 @@ from urllib.parse import quote_plus
 import logging
 import requests
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
@@ -30,6 +33,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 s = URLSafeTimedSerializer(SECRET_KEY)
 username = os.getenv("USERNAME")
 password = os.getenv("PASSWORD")
+
 encoded_username = quote_plus(username)
 encoded_password = quote_plus(password)
 url = f"mongodb+srv://{encoded_username}:{encoded_password}@knowledgebridge.q5ir04n.mongodb.net/?retryWrites=true&w=majority"
@@ -115,11 +119,12 @@ def get_login_data():
 
         if user_record:
             stored_password = user_record['password']
-            if check_password_hash(stored_password, password):
-                
+            if check_password_hash(stored_password, password):    
                 x_forwarded_for = request.headers.get('X-Forwarded-For')
-                user_ip = x_forwarded_for.split(',')[0].strip()
-                
+                if x_forwarded_for:
+                    user_ip = x_forwarded_for.split(',')[0].strip()
+                else:
+                    user_ip = request.remote_addr    
 
                 api_key = os.getenv("API_KEY")
                 response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
@@ -1698,7 +1703,10 @@ def google_login():
     token = generate_token(user_info)
     
     x_forwarded_for = request.headers.get('X-Forwarded-For')
-    user_ip = x_forwarded_for.split(',')[0].strip()
+    if x_forwarded_for:
+        user_ip = x_forwarded_for.split(',')[0].strip()
+    else:
+        user_ip = request.remote_addr  
 
     api_key = os.getenv("API_KEY")
     response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
