@@ -12,24 +12,24 @@ import datetime
 from urllib.parse import quote_plus
 import logging
 import requests
+import os
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": ['https://knowledgebridge-p1wa.onrender.com','http://localhost:3000']}})
-app.config['SECRET_KEY'] = 'KMJ123456789'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587  # Gmail's SMTP port for TLS
 app.config['MAIL_USE_TLS'] = True  # Use TLS encryption
-app.config['MAIL_USERNAME'] = 'karenzijoslyn@gmail.com'
-app.config['MAIL_PASSWORD'] = 'coup yusl ijqn bden'
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
 
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H: %M: %S')
 
 mail = Mail(app)
-SECRET_KEY = 'kmj12345'
-s = URLSafeTimedSerializer('kmj12345')
-username = 'jkarenzi'
-password = '@Karenzijoslyn46'
+SECRET_KEY = os.getenv("SECRET_KEY")
+s = URLSafeTimedSerializer(SECRET_KEY)
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 encoded_username = quote_plus(username)
 encoded_password = quote_plus(password)
 url = f"mongodb+srv://{encoded_username}:{encoded_password}@knowledgebridge.q5ir04n.mongodb.net/?retryWrites=true&w=majority"
@@ -121,7 +121,7 @@ def get_login_data():
                 user_ip = x_forwarded_for.split(',')[0].strip()
                 
 
-                api_key = '0aa6e517f25b0a'
+                api_key = os.getenv("API_KEY")
                 response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
                 data = response.json()
                 
@@ -1700,7 +1700,7 @@ def google_login():
     x_forwarded_for = request.headers.get('X-Forwarded-For')
     user_ip = x_forwarded_for.split(',')[0].strip()
 
-    api_key = '0aa6e517f25b0a'
+    api_key = os.getenv("API_KEY")
     response = requests.get(f'https://ipinfo.io/{user_ip}?token={api_key}')
     data = response.json()
       
